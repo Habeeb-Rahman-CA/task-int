@@ -1,0 +1,60 @@
+<div class="p-4 flex gap-4">
+    <div class="w-2/6 p-4 border border-[#233a6c] rounded-2xl h-[400px]">
+        <h1 class="text-[#233a6c] font-semibold text-2xl mb-4">Add New Task</h1>
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-[#233a6c] text-lg">Title</label>
+                <input [(ngModel)]="newTodoInput.title" name="title" type="text"
+                    class="p-2 rounded-lg border border-[#233a6c]" placeholder="e.g. Write blog post">
+            </div>
+            <div class="flex flex-col gap-1">
+                <label class="text-[#233a6c] text-lg">Description</label>
+                <textarea [(ngModel)]="newTodoInput.description" name="description" type="text" rows="4"
+                    class="p-2 rounded-lg border border-[#233a6c]"
+                    placeholder="e.g. Draft tips on productivity and focus."></textarea>
+            </div>
+        </div>
+        <button (click)="addTodo()"
+            class="bg-[#233a6c] text-white text-lg rounded-lg transition-all duration-300 mt-8 w-full p-2">
+            Add Task
+        </button>
+    </div>
+    <div class="w-4/6 p-4 bg-[#233a6c] rounded-2xl h-[400px] overflow-y-auto">
+        <h1 class="text-[#fffde9] font-semibold text-2xl mb-4">Tasks</h1>
+        <div class="flex flex-col gap-4">
+            @for (todo of todos; track $index) {
+            <div
+                class="flex items-center justify-between hover:border-white border border-[#233a6c] p-4 rounded-2xl  transition-all duration-300">
+                <div class="flex gap-4 items-center justify-center">
+                    <h1 [ngClass]="todo.completed === false ? '':'text-red-500'"
+                        class="text-5xl font-extrabold text-[#2e4c8b]">{{$index+1}}</h1>
+                    <div class="flex flex-col">
+                        <h3 [ngClass]="todo.completed === false ? '':'line-through text-red-500'"
+                            class="text-lg font-semibold text-white">{{todo.title}}</h3>
+                        <p [ngClass]="todo.completed === false ? '':'line-through text-red-500'"
+                            class="text-sm text-white">{{todo.description}}</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button (click)="toggleCompleted(todo)"
+                        class="bg-white text-[#233a6c] rounded-xl hover:rounded-md p-1 w-20 transition-all duration-300">
+                        @if (todo.completed === false) {
+                        Done
+                        } @else {
+                        Undo
+                        }
+                    </button>
+                    <button (click)="editTodo(todo)"
+                        class="bg-white text-[#233a6c] rounded-xl hover:rounded-md p-1 w-20 transition-all duration-300">
+                        Edit
+                    </button>
+                    <button (click)="deleteTodo(todo.id)"
+                        class="bg-white text-[#233a6c] rounded-xl hover:rounded-md p-1 w-20 transition-all duration-300">
+                        Delete
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
