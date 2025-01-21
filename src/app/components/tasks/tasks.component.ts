@@ -52,7 +52,7 @@ export class TasksComponent implements OnInit {
       this.tasks.push(newTask)
       this.saveTask()
       this.resetNewTaskInput()
-      this.openSnackBar('Added New Task');
+      this.openSnackBar('Added Task');
     } else {
       this.openSnackBar('Fields are Empty!')
     }
@@ -63,7 +63,7 @@ export class TasksComponent implements OnInit {
     if (task) {
       task.completed = !task.completed
       this.saveTask()
-      if(task.completed){
+      if (task.completed) {
         this.openSnackBar('Completed')
       } else {
         this.openSnackBar('Undo')
@@ -87,6 +87,7 @@ export class TasksComponent implements OnInit {
   editTask(newTask: ITask) {
     if (newTask.title?.trim() && newTask.description?.trim()) {
       this.deleteTask(newTask.id)
+      this.openSnackBar('Updating task...')
       this.newTaskInput = {
         title: newTask.title,
         description: newTask.description,
@@ -148,7 +149,8 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  openSnackBar(message: string){
+  // Snackbar
+  openSnackBar(message: string) {
     this.snackBar.open(message, '', {
       duration: 3000,
       horizontalPosition: 'center',
