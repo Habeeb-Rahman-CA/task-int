@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { TodoComponent } from './components/todo/todo.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'todo', pathMatch: 'full' },
     { path: '**', redirectTo: 'todo', pathMatch: 'full' },
-    { path: 'todo', component: TodoComponent }
+    { path: 'todo', component: TasksComponent }
 ];
