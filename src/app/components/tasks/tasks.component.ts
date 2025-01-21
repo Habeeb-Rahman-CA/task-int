@@ -26,8 +26,12 @@ export class TasksComponent implements OnInit {
   statusFilter: 'All' | 'Completed' | 'Pending' = 'All';
   priorityFilter: 'All' | 'High' | 'Medium' | 'Low' = 'All';
 
-  // Get data from the localstorage on component initialization
   ngOnInit(): void {
+    this.getTasks()
+  }
+
+  // Get tasks
+  getTasks() {
     try {
       const savedTasks = localStorage.getItem('tasks')
       if (savedTasks) {
