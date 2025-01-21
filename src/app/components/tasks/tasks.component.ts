@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ITask } from '../../model/task.interface';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tasks',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatTooltipModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent implements OnInit {
 
+  snackBar = inject(MatSnackBar)
   tasks: ITask[] = []
 
   newTaskInput: ITask = {
@@ -31,7 +34,7 @@ export class TasksComponent implements OnInit {
         this.tasks = JSON.parse(savedTasks)
       }
     } catch (err) {
-      alert('Failed to fetch tasks from the localstorage')
+      this.openSnackBar('Failed to fetch tasks from the localstorage')
       console.error(err)
     }
   }
@@ -49,8 +52,9 @@ export class TasksComponent implements OnInit {
       this.tasks.push(newTask)
       this.saveTask()
       this.resetNewTaskInput()
+      this.openSnackBar('Added New Task');
     } else {
-      alert('Fields cannot be empty!')
+      this.openSnackBar('Fields are Empty!')
     }
   }
 
@@ -59,15 +63,20 @@ export class TasksComponent implements OnInit {
     if (task) {
       task.completed = !task.completed
       this.saveTask()
+      if(task.completed){
+        this.openSnackBar('Completed')
+      } else {
+        this.openSnackBar('Undo')
+      }
     } else {
-      alert('failed to toggle')
+      this.openSnackBar('failed to toggle')
     }
   }
 
   // Delete task 
   deleteTask(id: number | undefined) {
     if (id === undefined) {
-      alert('failed to delete')
+      this.openSnackBar('failed to delete')
       return
     }
     this.tasks = this.tasks.filter(task => task.id !== id)
@@ -85,7 +94,7 @@ export class TasksComponent implements OnInit {
       }
       this.saveTask()
     } else {
-      alert('task not found for editing')
+      this.openSnackBar('task not found for editing')
     }
   }
 
@@ -94,12 +103,12 @@ export class TasksComponent implements OnInit {
     try {
       localStorage.setItem('tasks', JSON.stringify(this.tasks))
     } catch (err) {
-      alert('failed to save localstorage')
+      this.openSnackBar('failed to save localstorage')
       console.error(err)
     }
   }
 
-  //get filtered task 
+  // Get filtered task 
   getFilteredTask() {
     let filtertasks = this.tasks
 
@@ -123,8 +132,9 @@ export class TasksComponent implements OnInit {
     try {
       this.tasks = this.tasks.filter(task => !task.completed)
       this.saveTask()
+      this.openSnackBar('Cleared all completed tasks')
     } catch (err) {
-      alert('failed to delete')
+      this.openSnackBar('failed to clear')
       console.error(err)
     }
   }
@@ -136,6 +146,15 @@ export class TasksComponent implements OnInit {
       description: '',
       priority: 'Medium',
     }
+  }
+
+  openSnackBar(message: string){
+    this.snackBar.open(message, '', {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['custom-snackbar']
+    });
   }
 
 }
