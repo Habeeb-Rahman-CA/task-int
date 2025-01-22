@@ -1,5 +1,5 @@
-<div class="p-4 flex gap-4">
-    <div class="w-2/6 p-4 border-2 border-[#233a6c] rounded-2xl h-[470px]">
+<div class="p-4 lg:flex gap-4">
+    <div class="lg:w-2/6 w-full mb-4 p-4 border-2 border-[#233a6c] rounded-2xl lg:h-[470px]">
         <!-- add task section -->
         <h1 class="text-[#233a6c] font-semibold text-2xl mb-4">Add New Task</h1>
         <form (ngSubmit)="addTask()" class="flex flex-col gap-4">
@@ -29,11 +29,11 @@
             </button>
         </form>
     </div>
-    <div class="w-4/6 p-4 bg-[#233a6c] rounded-2xl h-[470px] overflow-y-auto scrollbar">
-        <div class="flex items-center justify-between mb-4">
+    <div class="lg:w-4/6 w-full p-4 bg-[#233a6c] rounded-2xl h-[470px] overflow-y-auto scrollbar">
+        <div class="lg:flex items-center justify-between mb-4">
             <!-- task list section -->
             <h1 class="text-[#fffde9] font-semibold text-2xl">Tasks</h1>
-            <div class="flex gap-4 items-center">
+            <div class="flex lg:gap-4 lg:mt-0 mt-4 justify-between items-center">
                 <!-- status based filter -->
                 <select name="filter-status" [(ngModel)]="statusFilter"
                     class="p-1 text-center text-white bg-[#2c4987] outline-none border-none rounded-lg w-32">
@@ -65,23 +65,23 @@
             @for (todo of getFilteredTask(); track $index) {
             <!-- display all tasks -->
             <div
-                class="flex items-center justify-between hover:border-white border border-[#233a6c] p-4 rounded-2xl  transition-all duration-300">
+                class="flex items-center justify-between hover:border-white border border-[#233a6c] p-4 rounded-2xl transition-all duration-300">
                 <div class="flex gap-4 items-center justify-center">
-                    <h1 class="text-5xl font-extrabold text-[#2e4c8b]">{{$index+1}}</h1>
+                    <h1 class="text-5xl lg:block hidden font-extrabold text-[#2e4c8b]">{{$index+1}}</h1>
                     <div class="flex flex-col">
                         <h3 [ngClass]="todo.completed === false ? '':'line-through !text-gray-500'"
-                            class="text-lg font-semibold text-white">{{todo.title}}</h3>
+                            class="lg:text-lg font-semibold text-white">{{todo.title}}</h3>
                         <p [ngClass]="todo.completed === false ? '':'line-through !text-gray-500'"
-                            class="text-sm text-white">{{todo.description}}</p>
+                            class="lg:text-sm text-xs text-white">{{todo.description}}</p>
                     </div>
                 </div>
-                <div class="flex gap-8">
+                <div class="flex lg:gap-8 gap-4">
                     <div [ngClass]="{
                         '!bg-neutral-500': todo.completed === true,
                         'bg-red-500': todo.priority === 'High',
                         'bg-green-500': todo.priority === 'Medium',
                         'bg-yellow-500': todo.priority === 'Low'
-                    }" class="w-28 text-center text-white rounded-3xl">
+                    }" class="lg:w-28 p-1 text-sm text-center text-white rounded-3xl">
                         <p>{{todo.priority}}</p>
                     </div>
                     <!-- button for toggle complete -->
